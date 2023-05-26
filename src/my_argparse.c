@@ -42,17 +42,27 @@ int print_missing_args(int filled)
 {
     int counter = 0;
 
-    for (int i = 1; i < 0x1000; i *= 0x10)
-        if (!(filled & i))
+    for (int i = 1; i < (1 << 3); i <<= 1)
+    {
+        if (filled & i)
+            continue;
+
+        ++counter;
+        switch (i)
         {
-            ++counter;
-            if (i == 0x1)
-                printf(MISSING_ARG_TEXT, 'u');
-            else if (i == 0x10)
-                printf(MISSING_ARG_TEXT, 'g');
-            else
-                printf(MISSING_ARG_TEXT, 'p');
+        case UNAME_FILLED:
+            printf(MISSING_ARG_TEXT, 'u');
+            break;
+        case GROUP_FILLED:
+            printf(MISSING_ARG_TEXT, 'g');
+            break;
+        case PATH_FILLED:
+            printf(MISSING_ARG_TEXT, 'p');
+            break;
+        default:
+            return -1;
         }
+    }
 
     return counter;
 }

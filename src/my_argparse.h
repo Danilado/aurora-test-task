@@ -24,10 +24,15 @@
 #define MISSING_ARG_TEXT                                                    \
   "Ошибка! Не введено значение аргумента %c\n"
 
-// clang-format on
+#define HELP_EXIT     0x08  // 0b00001000
+#define BAD_ARG_EXIT  0x16  // 0b00010000
 
-#define HELP_EXIT 0x01000000
-#define BAD_ARG_EXIT 0x02000000
+#define UNAME_FILLED  0x01  // 0b00000001
+#define GROUP_FILLED  0x02  // 0b00000010
+#define PATH_FILLED   0x04   //0b00000100
+#define ALL_FILLED    (UNAME_FILLED | GROUP_FILLED | PATH_FILLED)
+
+// clang-format on
 
 typedef struct
 {
@@ -37,12 +42,8 @@ typedef struct
     int filled;
 } args_struct;
 
-#define UNAME_FILLED 0x00000001
-#define GROUP_FILLED 0x00000010
-#define PATH_FILLED 0x00000100
-#define EVERYTHING_FILLED 0x111
-
 int parse_args(args_struct *args, int argc, char **argv);
 int print_missing_args(int filled);
+int init_args_s(args_struct *args);
 
 #endif

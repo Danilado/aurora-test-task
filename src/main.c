@@ -1,6 +1,7 @@
 #include <unistd.h>
 
 #include <ctype.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -8,8 +9,12 @@
 
 #include "my_argparse.h"
 
-#define NO_ARGS_EXIT 0x00000001
-#define MISSING_ARGS_EXIT 0x04000000
+// clang-format off
+
+#define NO_ARGS_EXIT        0x18    // 0b00011000
+#define MISSING_ARGS_EXIT   0x20    // 0b00100000
+
+// clang-format on
 
 int main(int argc, char **argv)
 {
@@ -33,11 +38,11 @@ int main(int argc, char **argv)
 
     if (rc & BAD_ARG_EXIT)
     {
-        printf(UNKNOWN_ARG_TEXT, (char)(rc & 0xFF));
+        printf(UNKNOWN_ARG_TEXT, (char)(rc & UCHAR_MAX));
         return rc;
     }
 
-    if (args.filled != EVERYTHING_FILLED)
+    if (args.filled != ALL_FILLED)
     {
         print_missing_args(args.filled);
         puts("\n" HELP_TEXT);
