@@ -10,3 +10,6 @@ out.*
 *.gcov
 *.gcda
 *.gcno
+
+# IDE
+.vscode
