@@ -7,10 +7,10 @@
 cd ./build || exit 1
 
 gcc ../src/*.c \
--Wall -Werror -Wpedantic \
+-Wall -Werror -Wpedantic -Wextra \
 -std=c99 -c \
 -Og -g3 \
 -fprofile-arcs -ftest-coverage
 
 gcc -lm -fprofile-arcs -lgcov \
-*.o -o mypermcheck
+./*.o -o mypermcheck
